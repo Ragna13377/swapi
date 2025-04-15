@@ -4,8 +4,8 @@ import {
 	type TNormalizedCharacter,
 } from '@shared/types';
 import type { CharacterResponse } from './schema';
+import { wrongValues } from './constants';
 
-const wrongValues = ['unknown', 'n/a', 'none'];
 const normalizeNullableString = (value: string): string | null =>
 	wrongValues.includes(value) ? null : value;
 const normalizeGender = (value: string): TGender | null =>

@@ -1,9 +1,9 @@
-import { ModuleOptions } from "webpack";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import {ProjectMode} from "../types/types";
+import { ModuleOptions } from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import {ProjectMode} from '../types/types';
 
 export function getLoaders(mode: ProjectMode): ModuleOptions['rules'] {
-  const isProd = mode === "prod";
+  const isProd = mode === 'prod';
   const scriptLoader = {
     test: /\.[tj]sx?$/,
     exclude: /node_modules/,
@@ -68,7 +68,7 @@ export function getLoaders(mode: ProjectMode): ModuleOptions['rules'] {
       filename: isProd
         ? 'static/images/[hash][ext][query]'
         : 'static/images/[name][ext][query]',
-			publicPath: "./"
+			publicPath: './'
     }
   }
   const fontLoader = {
@@ -78,7 +78,7 @@ export function getLoaders(mode: ProjectMode): ModuleOptions['rules'] {
       filename: isProd
         ? 'static/fonts/[hash][ext][query]'
         : 'static/fonts/[name][ext][query]',
-			publicPath: "./"
+			publicPath: './'
     }
   }
   return [
