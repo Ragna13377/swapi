@@ -1,21 +1,13 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import type { TNormalizedCharacter } from '@shared/types';
 import { ALL_OPTION } from '@entities/Select/constants';
 import { TSelectOption } from '@entities/Select/types';
 import { initialFilterState } from '../constants';
-import { TActiveFilter, TFiltersMap } from '../types';
-import { generateFilters } from '@pages/Characters/utils';
+import { TActiveFilter } from '../types';
 
-export const useFilter = () => {
-	const [characters, setCharacters] = useState<TNormalizedCharacter[]>([]);
+export const useFilter = (characters: TNormalizedCharacter[]) => {
 	const [activeFilter, setActiveFilter] =
 		useState<TActiveFilter>(initialFilterState);
-	const [filters, setFilters] = useState<TFiltersMap>({
-		categories: [],
-		optionsByCategory: {
-			all: [],
-		},
-	});
 
 	const handleFilterCategoryChange = (option: TSelectOption) => {
 		if (option === null) {
@@ -73,22 +65,9 @@ export const useFilter = () => {
 		});
 	};
 
-	const addNewCharacters = (newCharacters: TNormalizedCharacter[]) => {
-		const allCharacters = [...characters, ...newCharacters];
-		const newFilter = generateFilters(allCharacters);
-
-		setFilters(newFilter);
-		setCharacters(allCharacters);
-	};
-
 	return {
-		characters,
-		hasCharacters: characters.length > 0,
-		addNewCharacters,
 		filteredCharacters,
 		activeFilter,
-		filters,
-		setFilters,
 		handleFilterCategoryChange,
 		handleFilterOptionChange,
 	};
