@@ -22,8 +22,8 @@ export const normalizeCharacters = ({
 	skin_color,
 }: CharacterResponse): TNormalizedCharacter => ({
 	name,
-	height: height,
-	mass: mass,
+	height: normalizeNullableString(height),
+	mass: normalizeNullableString(mass),
 	gender: normalizeGender(gender),
 	birthYear: normalizeNullableString(birth_year),
 	eyeColor: normalizeNullableString(eye_color),

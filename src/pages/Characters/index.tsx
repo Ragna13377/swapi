@@ -10,8 +10,17 @@ import {
 import { TFilterCategory } from './types';
 import { useInfinityScroll } from '@pages/Characters/hooks/useInfinityScroll';
 import { useLoadData } from '@pages/Characters/hooks/useLoadData';
+import { useState } from 'react';
+import { TNormalizedCharacter } from '@shared/types';
+import { Modal } from '@entities/Modal';
+import { CardDetail } from '@shared/ui/CardDetail';
 
 export const Characters = () => {
+	const [selectedCharacter, setSelectedCharacter] =
+		useState<TNormalizedCharacter | null>(null);
+	const handleCardClick = (character: TNormalizedCharacter) => {
+		setSelectedCharacter(character);
+	};
 	const { count, characters, filters, isLoading, error, hasMore, onLoadMore } =
 		useLoadData();
 	const {
@@ -31,7 +40,7 @@ export const Characters = () => {
 		<StyledContentWrapper>
 			<StyledTitle>
 				{count} <span>Peoples</span> for you to choose your favorite
-				{/*{characters.length}*/}
+				{characters.length}
 			</StyledTitle>
 			<StyledFilterWrapper>
 				<Select
@@ -58,10 +67,20 @@ export const Characters = () => {
 			{characters.length > 0 && (
 				<StyledCardWrapper ref={containerRef}>
 					{filteredCharacters().map((character, index) => (
-						<Card key={index} {...character} />
+						<Card
+							key={index}
+							onClick={() => handleCardClick(character)}
+							{...character}
+						/>
 					))}
 				</StyledCardWrapper>
 			)}
+			<Modal
+				isOpen={!!selectedCharacter}
+				onClose={() => setSelectedCharacter(null)}
+			>
+				{selectedCharacter && <CardDetail {...selectedCharacter} />}
+			</Modal>
 		</StyledContentWrapper>
 	);
 };
