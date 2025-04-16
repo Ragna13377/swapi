@@ -11,8 +11,8 @@ export const isGender = (value: string): value is TGender =>
 
 export type TNormalizedCharacter = {
 	name: string;
-	height: string;
-	mass: string;
+	height: string | null;
+	mass: string | null;
 	gender: string | null;
 	birthYear: string | null;
 	eyeColor: string | null;

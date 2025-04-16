@@ -7,18 +7,15 @@ import { TNormalizedCharacter } from '@shared/types';
 import { useLoaderData } from 'react-router-dom';
 import { defaultCharactersLoadPages } from '@shared/constants';
 import { TFiltersMap } from '@pages/Characters/types';
-import { generateFilters } from '@pages/Characters/utils';
+import { generateFilters, mergeFilters } from '@pages/Characters/utils';
 
 export const useLoadData = () => {
 	const { results, ...pagination } = useLoaderData<
 		{ results: TNormalizedCharacter[] } & PaginationResponse
 	>();
-	const [filters, setFilters] = useState<TFiltersMap>({
-		categories: [],
-		optionsByCategory: {
-			all: [],
-		},
-	});
+	const [filters, setFilters] = useState<TFiltersMap>(
+		generateFilters(results)
+	);
 	const [page, setPage] = useState(defaultCharactersLoadPages);
 	const [characters, setCharacters] = useState(results);
 	const [{ count, next }, setPagination] = useState(pagination);
@@ -40,7 +37,7 @@ export const useLoadData = () => {
 		if (data) {
 			const { results, ...rest } = data;
 			const allCharacters = [...characters, ...results];
-			const newFilters = generateFilters(allCharacters);
+			const newFilters = mergeFilters(filters, results);
 			setCharacters(allCharacters);
 			setFilters(newFilters);
 			setPagination({ ...rest });

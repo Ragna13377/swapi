@@ -6,9 +6,10 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { SelectControlKeys as KEY } from '../../constants';
-import { findOptionByKey, isPrintableKey } from '../..//utils';
+import { isPrintableKey } from '@shared/utils/keyboardUtils';
 import { SelectProps, TSelectOption } from '../../types';
+import { SelectControlKeys as KEY } from '../../constants';
+import { findOptionByKey } from '../../utils';
 
 type UseSelectProps = Pick<SelectProps, 'onChange' | 'options'> & {
 	isOpen: boolean;

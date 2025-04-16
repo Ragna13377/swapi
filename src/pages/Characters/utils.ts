@@ -1,12 +1,14 @@
 import { TNormalizedCharacter } from '@shared/types';
-import {
-	TFilterCategory,
-	TFilterOptionsByCategory,
-	TFiltersMap,
-} from '@pages/Characters/types';
+import { snakeCaseToCapitalize } from '@shared/utils/stringUtils';
 import { TSelectOption } from '@entities/Select/types';
-import { camelCaseToCapitalize } from '@shared/utils/stringUtils';
 import { ALL_OPTION, NONE_OPTION } from '@entities/Select/constants';
+import {
+	applySpecialOptions,
+	createSelectOptions,
+	sortOptions,
+} from '@entities/Select/utils';
+import { TFilterOptionsByCategory, TFiltersMap } from '@pages/Characters/types';
+import { ALL_CATEGORIES } from './constants';
 
 const getRangeFilter = (num: number, range = 50): string => {
 	const rangeStart = Math.floor(num / range) * range;
@@ -19,29 +21,20 @@ export const generateFilters = (
 	if (characters.length === 0)
 		return {
 			categories: [],
-			optionsByCategory: {
-				all: [],
-			},
+			optionsByCategory: {},
 		};
 
-	const firstCharacter = characters[0];
-	const categories = Object.keys(firstCharacter) as TFilterCategory[];
+	const categories = ALL_CATEGORIES;
+	const categoryOptions = createSelectOptions(
+		new Set(ALL_CATEGORIES),
+		snakeCaseToCapitalize
+	);
 
-	const categoryOptions: TSelectOption[] = [
-		ALL_OPTION,
-		...categories.map((category) => ({
-			value: category,
-			label: camelCaseToCapitalize(category),
-		})),
-	];
+	const optionsByCategory: TFilterOptionsByCategory = {};
 
-	const optionsByCategory: TFilterOptionsByCategory = {
-		all: [ALL_OPTION],
-	};
 	for (const category of categories) {
 		const isNameField = category === 'name';
 		let hasNull = false;
-
 		const uniqueValues = new Set<string>();
 
 		for (const char of characters) {
@@ -58,24 +51,55 @@ export const generateFilters = (
 				}
 			}
 		}
-		const sortedUniqueValues = Array.from(uniqueValues)
-			.sort((a, b) => {
-				const numA = parseFloat(a);
-				const numB = parseFloat(b);
-				return !isNaN(numA) && !isNaN(numB) ? numA - numB : a.localeCompare(b);
-			})
-			.map((value) => ({
-				value,
-				label: camelCaseToCapitalize(value),
-			}));
-		optionsByCategory[category] = [
-			ALL_OPTION,
-			...sortedUniqueValues,
-			...(hasNull ? [NONE_OPTION] : []),
-		];
+
+		const sortedOptions = sortOptions(createSelectOptions(uniqueValues));
+		optionsByCategory[category] = applySpecialOptions(sortedOptions, hasNull);
 	}
 	return {
 		categories: categoryOptions,
 		optionsByCategory,
+	};
+};
+
+export const mergeFilters = (
+	oldFilters: TFiltersMap,
+	newCharacters: TNormalizedCharacter[]
+): TFiltersMap => {
+	if (newCharacters.length === 0)
+		return oldFilters ?? { categories: [], optionsByCategory: {} };
+	if (!oldFilters) return generateFilters(newCharacters);
+
+	const newFilters = generateFilters(newCharacters);
+	const mergedOptionsByCategory: TFilterOptionsByCategory = {};
+
+	for (const category of ALL_CATEGORIES) {
+		const oldOptions = oldFilters.optionsByCategory[category] ?? [];
+		const newOptions = newFilters.optionsByCategory[category] ?? [];
+		if (newOptions.length === 0) {
+			mergedOptionsByCategory[category] = oldOptions;
+			continue;
+		}
+		const allOptions = [...oldOptions, ...newOptions];
+
+		const optionsMap = new Map<string, TSelectOption>();
+		let hasNoneOption = false;
+		for (const option of allOptions) {
+			if (option.value === NONE_OPTION.value) {
+				hasNoneOption = true;
+			} else if (option.value !== ALL_OPTION.value) {
+				optionsMap.set(option.value, option);
+			}
+		}
+
+		const sortedOptions = sortOptions(Array.from(optionsMap.values()));
+		mergedOptionsByCategory[category] = applySpecialOptions(
+			sortedOptions,
+			hasNoneOption
+		);
+	}
+
+	return {
+		categories: oldFilters.categories,
+		optionsByCategory: mergedOptionsByCategory,
 	};
 };

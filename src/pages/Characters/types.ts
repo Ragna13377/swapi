@@ -4,9 +4,7 @@ import { TSelectOption } from '@entities/Select/types';
 export type TFilterCategory = keyof TNormalizedCharacter;
 export type TFilterOptionsByCategory = Partial<
 	Record<TFilterCategory, TSelectOption[]>
-> & {
-	all: TSelectOption[];
-};
+>;
 export type TActiveFilter = {
 	category: TSelectOption | null;
 	categoryOption: TSelectOption | null;

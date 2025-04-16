@@ -15,12 +15,13 @@ export const Card = ({
 	mass,
 	birthYear,
 	gender,
-}: TNormalizedCharacter) => (
-	<StyledCard>
+	onClick,
+}: TNormalizedCharacter & { onClick?: () => void }) => (
+	<StyledCard onClick={onClick}>
 		<StyledCardTitle>{name}</StyledCardTitle>
 		<StyledCardMetrics>
-			<MetricCircle value={+height} description='height' />
-			<MetricCircle value={+mass} description='mass' />
+			{height && <MetricCircle value={+height} description='height' />}
+			{mass && <MetricCircle value={+mass} description='mass' />}
 		</StyledCardMetrics>
 		<StyledCardCheeps>
 			{gender && isGender(gender) && (
