@@ -1,31 +1,25 @@
 import { toCapitalizeFirstLetter } from '@shared/utils/stringUtils';
 import { headerLinks } from './constants';
-import {
-	StyledHeader,
-	StyledHeaderLink,
-	StyledHeaderLinkList,
-	StyledHeaderLogo,
-	StyledHeaderWrapper,
-} from './styles';
+import { StyledHeader } from './styles';
 
 export const Header = () => (
-	<StyledHeader>
-		<StyledHeaderWrapper>
-			<StyledHeaderLogo />
+	<StyledHeader.Wrapper>
+		<StyledHeader.Container>
+			<StyledHeader.Logo />
 			<nav>
-				<StyledHeaderLinkList>
+				<StyledHeader.LinkList>
 					{headerLinks.map(({ title, path }) => (
 						<li key={title}>
-							<StyledHeaderLink
+							<StyledHeader.Link
 								className={({ isActive }) => (isActive ? 'active' : '')}
 								to={path ?? `/${title}`}
 							>
 								{toCapitalizeFirstLetter(title)}
-							</StyledHeaderLink>
+							</StyledHeader.Link>
 						</li>
 					))}
-				</StyledHeaderLinkList>
+				</StyledHeader.LinkList>
 			</nav>
-		</StyledHeaderWrapper>
-	</StyledHeader>
+		</StyledHeader.Container>
+	</StyledHeader.Wrapper>
 );

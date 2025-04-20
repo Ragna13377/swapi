@@ -1,26 +1,15 @@
 import { Card } from '@shared/ui/Card';
-import { Select } from '@entities/Select';
-import { useFilter } from './hooks/useFilter';
-import {
-	StyledCardWrapper,
-	StyledContentWrapper,
-	StyledFilterWrapper,
-	StyledTitle,
-} from './styles';
-import { TFilterCategory } from './types';
-import { useInfinityScroll } from '@pages/Characters/hooks/useInfinityScroll';
-import { useLoadData } from '@pages/Characters/hooks/useLoadData';
-import { useState } from 'react';
-import { TNormalizedCharacter } from '@shared/types';
-import { Modal } from '@entities/Modal';
 import { CardDetail } from '@shared/ui/CardDetail';
+import { Modal } from '@entities/Modal';
+import { Select } from '@entities/Select';
+import { TFilterCategory } from './types';
+import { useFilter } from './hooks/useFilter';
+import { useInfinityScroll } from './hooks/useInfinityScroll';
+import { useLoadData } from './hooks/useLoadData';
+import { useModal } from './hooks/useModal';
+import { StyledCharacters } from './styles';
 
 export const Characters = () => {
-	const [selectedCharacter, setSelectedCharacter] =
-		useState<TNormalizedCharacter | null>(null);
-	const handleCardClick = (character: TNormalizedCharacter) => {
-		setSelectedCharacter(character);
-	};
 	const { count, characters, filters, isLoading, error, hasMore, onLoadMore } =
 		useLoadData();
 	const {
@@ -29,20 +18,19 @@ export const Characters = () => {
 		handleFilterOptionChange,
 		handleFilterCategoryChange,
 	} = useFilter(characters);
-
 	const { containerRef } = useInfinityScroll({
 		onLoadMore,
 		isEnabled: hasMore,
 		charactersCount: characters.length,
 	});
+	const { handleModalClose, handleCardClick, selectedCharacter } = useModal();
 
 	return (
-		<StyledContentWrapper>
-			<StyledTitle>
+		<StyledCharacters.ContentWrapper>
+			<StyledCharacters.Title>
 				{count} <span>Peoples</span> for you to choose your favorite
-				{characters.length}
-			</StyledTitle>
-			<StyledFilterWrapper>
+			</StyledCharacters.Title>
+			<StyledCharacters.FilterContainer>
 				<Select
 					id='filter-category'
 					activeValue={activeFilter.category}
@@ -63,24 +51,21 @@ export const Characters = () => {
 					}
 					placeholder='Select option'
 				/>
-			</StyledFilterWrapper>
+			</StyledCharacters.FilterContainer>
 			{characters.length > 0 && (
-				<StyledCardWrapper ref={containerRef}>
-					{filteredCharacters().map((character, index) => (
+				<StyledCharacters.CardContainer ref={containerRef}>
+					{filteredCharacters.map((character) => (
 						<Card
-							key={index}
+							key={character.id}
 							onClick={() => handleCardClick(character)}
 							{...character}
 						/>
 					))}
-				</StyledCardWrapper>
+				</StyledCharacters.CardContainer>
 			)}
-			<Modal
-				isOpen={!!selectedCharacter}
-				onClose={() => setSelectedCharacter(null)}
-			>
+			<Modal isOpen={!!selectedCharacter} onClose={handleModalClose}>
 				{selectedCharacter && <CardDetail {...selectedCharacter} />}
 			</Modal>
-		</StyledContentWrapper>
+		</StyledCharacters.ContentWrapper>
 	);
 };

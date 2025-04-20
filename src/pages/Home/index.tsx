@@ -1,24 +1,18 @@
 import { LinkButton } from '@shared/ui/LinkButton';
-import {
-	StyledBanner,
-	StyledDescription,
-	StyledTitle,
-	StyledContentWrapper,
-	StyledSectionWrapper,
-} from './styles';
+import { StyledHome } from './styles';
 
 export const Home = () => (
-	<StyledSectionWrapper>
-		<StyledContentWrapper>
-			<StyledTitle>
+	<StyledHome.Section>
+		<StyledHome.ContentWrapper>
+			<StyledHome.Title>
 				Find <span>all your favorite</span> character
-			</StyledTitle>
-			<StyledDescription>
+			</StyledHome.Title>
+			<StyledHome.Description>
 				You can find out all the
 				<span /> information about your favorite characters
-			</StyledDescription>
+			</StyledHome.Description>
 			<LinkButton to='/characters'>See more...</LinkButton>
-		</StyledContentWrapper>
-		<StyledBanner />
-	</StyledSectionWrapper>
+		</StyledHome.ContentWrapper>
+		<StyledHome.Banner />
+	</StyledHome.Section>
 );

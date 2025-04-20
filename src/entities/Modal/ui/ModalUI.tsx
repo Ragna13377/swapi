@@ -1,6 +1,6 @@
 import { ModalUIProps } from '../types';
 import { createPortal } from 'react-dom';
-import { StyledModal, StyledOverlay } from '@entities/Modal/ui/styles';
+import { StyledModal } from '@entities/Modal/ui/styles';
 
 const ModalUI = ({
 	isOpen,
@@ -10,7 +10,7 @@ const ModalUI = ({
 	title,
 }: ModalUIProps) =>
 	createPortal(
-		<StyledOverlay
+		<StyledModal.Overlay
 			role='dialog'
 			aria-modal='true'
 			aria-labelledby={title ? 'modal-title' : undefined}
@@ -18,11 +18,14 @@ const ModalUI = ({
 			data-enter={isOpen ? true : undefined}
 			onClick={onOverlayClick}
 		>
-			<StyledModal ref={ref} onClick={(e) => e.stopPropagation()}>
-				{title && <h2 id='modal-title'>{title}</h2>}
-				{children}
-			</StyledModal>
-		</StyledOverlay>,
+			<StyledModal.Wrapper ref={ref} onClick={(e) => e.stopPropagation()}>
+				<StyledModal.Header>
+					{title && <h2 id='modal-title'>{title}</h2>}
+					<StyledModal.CloseButton onClick={onOverlayClick} />
+				</StyledModal.Header>
+				<StyledModal.Content>{children}</StyledModal.Content>
+			</StyledModal.Wrapper>
+		</StyledModal.Overlay>,
 		document.body
 	);
 

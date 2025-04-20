@@ -10,6 +10,7 @@ export const isGender = (value: string): value is TGender =>
 	Object.values(GenderEnum).includes(value as GenderEnum);
 
 export type TNormalizedCharacter = {
+	id: string;
 	name: string;
 	height: string | null;
 	mass: string | null;
@@ -17,7 +18,7 @@ export type TNormalizedCharacter = {
 	birthYear: string | null;
 	eyeColor: string | null;
 	hairColor: string | null;
-	skinColor: string;
+	skinColor: string | null;
 };
 
 export type TTimeout = ReturnType<typeof setTimeout> | null;

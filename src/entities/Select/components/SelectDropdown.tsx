@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { css, styled } from 'styled-components';
 import { TDropdownPosition, TSelectOption } from '@entities/Select/types';
+import { theme } from '@shared/themes';
 
 type SelectDropdownProps = {
 	id: string;
@@ -18,15 +19,15 @@ const StyledSelectDropdown = styled.ul<Pick<SelectDropdownProps, 'position'>>`
 	inset-block-start: ${({ position }) => `${position.top}px`};
 	inset-inline-start: ${({ position }) => `${position.left}px`};
 	width: ${({ position }) => `${position.width}px`};
-	background: hsla(0, 0%, 95%, 1);
-	box-shadow: 4px 4px 8px 0px hsla(214, 97%, 13%, 0.2);
-	border-radius: 8px;
+	background: ${theme.colors.cardBackground};
+	box-shadow: 0.25rem 0.25rem 0.5rem 0 hsla(214, 97%, 13%, 0.2);
+	border-radius: 0.5rem;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 `;
 const StyledDropdownElement = styled.li<{ $isHighlighted: boolean }>`
-	padding-block: 6px;
+	padding-block: 0.5rem;
 	font-weight: 400;
 	font-size: 1rem;
 	line-height: 1;
@@ -38,7 +39,7 @@ const StyledDropdownElement = styled.li<{ $isHighlighted: boolean }>`
 	${({ $isHighlighted }) =>
 		$isHighlighted &&
 		css`
-			background-color: #e3e3e3;
+			background-color: ${theme.colors.highlightedColor};
 		`}
 `;
 

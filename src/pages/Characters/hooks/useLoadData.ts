@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { PaginationResponse } from '@shared/api/swapi/schema';
 import { useQuery } from '@tanstack/react-query';
 import { swapi } from '@shared/api/swapi';
@@ -22,7 +22,7 @@ export const useLoadData = () => {
 
 	const { data, isLoading, isFetching, error } = useQuery({
 		queryKey: ['characters', page],
-		queryFn: () => swapi.getCharacters(page),
+		queryFn: () => swapi.getCharactersPagination(page),
 		select: (rawData) => {
 			if (!rawData) return null;
 			return {

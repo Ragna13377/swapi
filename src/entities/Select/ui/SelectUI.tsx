@@ -1,11 +1,6 @@
 import { SelectUIProps } from '../types';
 import { SelectDropdown } from '../components/SelectDropdown';
-import {
-	StyledSelect,
-	StyledSelectLabel,
-	StyledSelectText,
-	StyledSelectWrapper,
-} from './styles';
+import { StyledSelect } from './styles';
 
 const SelectUI = ({
 	id,
@@ -21,13 +16,13 @@ const SelectUI = ({
 	placeholder = 'Select...',
 	...dropdownProps
 }: SelectUIProps) => (
-	<StyledSelectWrapper>
+	<StyledSelect.Wrapper>
 		{label && (
-			<StyledSelectLabel id={`${id}-label`} htmlFor={id}>
+			<StyledSelect.Label id={`${id}-label`} htmlFor={id}>
 				{label}
-			</StyledSelectLabel>
+			</StyledSelect.Label>
 		)}
-		<StyledSelect
+		<StyledSelect.Select
 			ref={selectRef}
 			id={id}
 			tabIndex={0}
@@ -45,10 +40,10 @@ const SelectUI = ({
 			onFocus={handleFocus}
 			onClick={handleToggle}
 		>
-			<StyledSelectText id={`${id}-value`} aria-hidden>
+			<StyledSelect.Text id={`${id}-value`} aria-hidden>
 				{activeValue?.label || placeholder}
-			</StyledSelectText>
-		</StyledSelect>
+			</StyledSelect.Text>
+		</StyledSelect.Select>
 		{isOpen && (
 			<SelectDropdown
 				ref={dropdownRef}
@@ -58,7 +53,7 @@ const SelectUI = ({
 				{...dropdownProps}
 			/>
 		)}
-	</StyledSelectWrapper>
+	</StyledSelect.Wrapper>
 );
 
 export default SelectUI;
