@@ -1,4 +1,5 @@
 export type RootLayoutProps = {
+	isLoading: boolean;
 	$background?: string;
 };
 

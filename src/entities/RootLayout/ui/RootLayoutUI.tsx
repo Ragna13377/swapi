@@ -1,16 +1,18 @@
-import { RootLayoutUIProps } from '../types';
-import { Header } from '@shared/ui/Header';
 import { Outlet } from 'react-router-dom';
-import { StyledMain, StyledWrapper } from '@entities/RootLayout/ui/styles';
+import { Header } from '@shared/ui/Header';
+import { LoaderIndicator } from '@shared/ui/LoaderIndicator';
+import { RootLayoutUIProps } from '../types';
+import { StyledLayout } from './styles';
 
-const RootLayoutUI = ({ $background }: RootLayoutUIProps) => (
+const RootLayoutUI = ({ isLoading, $background }: RootLayoutUIProps) => (
 	<>
+		{isLoading && <LoaderIndicator />}
 		<Header />
-		<StyledMain $background={$background}>
-			<StyledWrapper>
+		<StyledLayout.Main $background={$background}>
+			<StyledLayout.Wrapper>
 				<Outlet />
-			</StyledWrapper>
-		</StyledMain>
+			</StyledLayout.Wrapper>
+		</StyledLayout.Main>
 	</>
 );
 

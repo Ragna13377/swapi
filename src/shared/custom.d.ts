@@ -12,6 +12,11 @@ declare module '*.svg' {
 	export default src;
 }
 
+declare module '*.png' {
+	const content: any;
+	export default content;
+}
+
 declare module '*.avif' {
 	const content: any;
 	export default content;

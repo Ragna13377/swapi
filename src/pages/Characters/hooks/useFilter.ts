@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { TNormalizedCharacter } from '@shared/types';
 import { ALL_OPTION } from '@entities/Select/constants';
 import { TSelectOption } from '@entities/Select/types';
@@ -26,7 +26,7 @@ export const useFilter = (characters: TNormalizedCharacter[]) => {
 		}));
 	};
 
-	const filteredCharacters = () => {
+	const filteredCharacters = useMemo(() => {
 		if (!activeFilter.category || !activeFilter.categoryOption) {
 			return characters;
 		}
@@ -63,7 +63,7 @@ export const useFilter = (characters: TNormalizedCharacter[]) => {
 					return false;
 			}
 		});
-	};
+	}, [characters, activeFilter]);
 
 	return {
 		filteredCharacters,

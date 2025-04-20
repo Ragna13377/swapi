@@ -9,6 +9,7 @@ export const characterSchema = z.object({
 	hair_color: z.string(),
 	skin_color: z.string(),
 	gender: z.string(),
+	url: z.string(),
 });
 
 export const paginationSchema = z.object({

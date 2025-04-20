@@ -1,21 +1,16 @@
 import { LinkButton } from '@shared/ui/LinkButton';
-import {
-	StyledPageContainer,
-	StyledContentWrapper,
-	StyledIllustrationWrapper,
-	StyledIllustration,
-} from './styles';
+import { StyledNotFound } from './styles';
 
 export const NotFound = () => (
-	<StyledPageContainer>
-		<StyledContentWrapper>
-			<StyledIllustrationWrapper>
+	<StyledNotFound.Wrapper>
+		<StyledNotFound.ContentWrapper>
+			<StyledNotFound.IllustrationContainer>
 				<p>404</p>
-				<StyledIllustration viewBox='0 0 690 623' />
-			</StyledIllustrationWrapper>
+				<StyledNotFound.Illustration viewBox='0 0 690 623' />
+			</StyledNotFound.IllustrationContainer>
 			<LinkButton variant='secondary' to='..'>
 				Return
 			</LinkButton>
-		</StyledContentWrapper>
-	</StyledPageContainer>
+		</StyledNotFound.ContentWrapper>
+	</StyledNotFound.Wrapper>
 );
