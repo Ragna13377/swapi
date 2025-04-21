@@ -12,10 +12,13 @@ export const useFocusTrap = ({ isOpen, modalRef }: UseFocusTrapProps) => {
 
 		const focusableElements =
 			modalRef.current.querySelectorAll<HTMLElement>(focusableSelector);
-		if (focusableElements.length === 0) return;
+		const length = focusableElements.length;
+		if (length === 0) return;
 
 		const firstElement = focusableElements[0];
-		const lastElement = focusableElements[focusableElements.length - 1];
+		const firstContentElement = focusableElements[1];
+		const lastElement = focusableElements[length - 1];
+		(firstContentElement ?? firstElement).focus();
 
 		const handleTabKey = (e: KeyboardEvent) => {
 			if (e.key !== 'Tab') return;

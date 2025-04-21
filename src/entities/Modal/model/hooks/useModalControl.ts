@@ -1,16 +1,11 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type UseModalControlProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	modalRef: RefObject<HTMLDivElement | null>;
 };
 
-export const useModalControl = ({
-	isOpen,
-	onClose,
-	modalRef,
-}: UseModalControlProps) => {
+export const useModalControl = ({ isOpen, onClose }: UseModalControlProps) => {
 	const previouslyFocusedElement = useRef<HTMLElement>(null);
 	const handleOverlayClick = (e: React.MouseEvent) => {
 		if (e.target === e.currentTarget) onClose();
@@ -20,7 +15,6 @@ export const useModalControl = ({
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') onClose();
 		};
-		if (isOpen && modalRef.current) modalRef.current.focus();
 		if (isOpen) {
 			document.body.style.overflow = 'hidden';
 			previouslyFocusedElement.current = document.activeElement as HTMLElement;
