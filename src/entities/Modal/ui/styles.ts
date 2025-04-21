@@ -19,8 +19,10 @@ export const StyledModal = {
 		display: flex;
 		flex-direction: column;
 		background: transparent;
-		inline-size: 50rem;
-		block-size: 26.25rem;
+		inline-size: clamp(18rem, 80%, 60rem);
+		block-size: clamp(15rem, 50%, 35rem);
+		max-block-size: 90vh;
+		min-block-size: fit-content;
 	`,
 	Header: styled.div`
 		position: relative;
