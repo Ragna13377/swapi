@@ -5,8 +5,11 @@ export const StyledCard = {
 	Wrapper: styled.div`
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
 		gap: 1rem;
 		inline-size: 22rem;
+		min-inline-size: 10.25rem;
 		padding: 0.3125rem 0 12px 1.5625rem;
 		border-radius: 0.5rem;
 		background: ${theme.colors.cardBackground};

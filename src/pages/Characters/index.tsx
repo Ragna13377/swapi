@@ -8,6 +8,7 @@ import { useInfinityScroll } from './hooks/useInfinityScroll';
 import { useLoadData } from './hooks/useLoadData';
 import { useModal } from './hooks/useModal';
 import { StyledCharacters } from './styles';
+import { Spinner } from '@shared/ui/Spinner';
 
 export const Characters = () => {
 	const { count, characters, filters, isLoading, error, hasMore, onLoadMore } =
@@ -61,6 +62,11 @@ export const Characters = () => {
 							{...character}
 						/>
 					))}
+					{isLoading && (
+						<StyledCharacters.Loader>
+							<Spinner />
+						</StyledCharacters.Loader>
+					)}
 				</StyledCharacters.CardContainer>
 			)}
 			<Modal isOpen={!!selectedCharacter} onClose={handleModalClose}>

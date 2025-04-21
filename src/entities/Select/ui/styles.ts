@@ -2,10 +2,9 @@ import { styled } from 'styled-components';
 
 export const StyledSelect = {
 	Wrapper: styled.div`
-		min-inline-size: 8rem;
-		max-inline-size: 10rem;
+		inline-size: clamp(8rem, fit-content, 10rem);
 		font-weight: 400;
-		font-size: 1rem;
+		font-size: clamp(1rem, calc(1rem + 0.25vw), 1.125rem);
 		line-height: 1;
 		letter-spacing: 0;
 	`,

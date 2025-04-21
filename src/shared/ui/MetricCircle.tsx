@@ -15,7 +15,7 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledValue = styled.div`
-	inline-size: clamp(2.5rem, 2.5vw, 4rem);
+	inline-size: clamp(2.5rem, 2.5vw, 3.5rem);
 	aspect-ratio: 1/1;
 	display: flex;
 	justify-content: center;
@@ -31,7 +31,7 @@ const StyledValue = styled.div`
 
 const StyledDescription = styled.p`
 	font-weight: 400;
-	font-size: clamp(0.75rem, 1vw, 1rem);
+	font-size: clamp(0.75rem, 1vw, 1.25rem);
 	line-height: 1;
 	letter-spacing: 0;
 	text-align: center;

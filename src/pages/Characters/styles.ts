@@ -13,11 +13,8 @@ export const StyledCharacters = {
 		}
 	`,
 	CardContainer: styled.div`
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		align-items: stretch;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 		gap: 2.75rem 2rem;
 		overflow-y: scroll;
 		scrollbar-width: none;
@@ -41,7 +38,17 @@ export const StyledCharacters = {
 	`,
 	FilterContainer: styled.div`
 		display: flex;
-		inline-size: max-content;
+		flex-wrap: wrap;
+		inline-size: 100%;
 		gap: 0.625rem;
+		@media (max-width: 425px) {
+			justify-content: center;
+		}
+	`,
+	Loader: styled.div`
+		display: flex;
+		justify-content: center;
+		padding: 2rem;
+		grid-column: 1 / -1;
 	`,
 };
