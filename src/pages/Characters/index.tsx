@@ -11,7 +11,7 @@ import { StyledCharacters } from './styles';
 import { Spinner } from '@shared/ui/Spinner';
 
 export const Characters = () => {
-	const { count, characters, filters, isLoading, error, hasMore, onLoadMore } =
+	const { count, characters, filters, isLoading, hasMore, onLoadMore } =
 		useLoadData();
 	const {
 		filteredCharacters,

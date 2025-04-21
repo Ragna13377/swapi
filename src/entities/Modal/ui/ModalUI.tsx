@@ -14,6 +14,7 @@ const ModalUI = ({
 			role='dialog'
 			aria-modal='true'
 			aria-labelledby={title ? 'modal-title' : undefined}
+			aria-hidden={!isOpen}
 			tabIndex={-1}
 			data-enter={isOpen ? true : undefined}
 			onClick={onOverlayClick}
@@ -21,7 +22,10 @@ const ModalUI = ({
 			<StyledModal.Wrapper ref={ref} onClick={(e) => e.stopPropagation()}>
 				<StyledModal.Header>
 					{title && <h2 id='modal-title'>{title}</h2>}
-					<StyledModal.CloseButton onClick={onOverlayClick} />
+					<StyledModal.CloseButton
+						onClick={onOverlayClick}
+						aria-label='Close modal'
+					/>
 				</StyledModal.Header>
 				<StyledModal.Content>{children}</StyledModal.Content>
 			</StyledModal.Wrapper>

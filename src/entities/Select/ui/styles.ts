@@ -29,7 +29,7 @@ export const StyledSelect = {
 		padding: 0.3125rem 0.625rem;
 		border-radius: 0.25rem;
 		background: hsla(0, 0%, 95%, 1);
-		box-shadow: 0.125rem 0.125rem 0.125rem 0px hsla(0, 0%, 13%, 0.1);
+		box-shadow: 0.125rem 0.125rem 0.125rem 0 hsla(0, 0%, 13%, 0.1);
 		cursor: pointer;
 
 		&:after {

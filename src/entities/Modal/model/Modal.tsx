@@ -9,7 +9,6 @@ export const Modal = ({ isOpen, onClose, ...rest }: ModalProps) => {
 	const { handleOverlayClick } = useModalControl({
 		isOpen,
 		onClose,
-		modalRef,
 	});
 	useFocusTrap({
 		isOpen,

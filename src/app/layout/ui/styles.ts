@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { RootLayoutUIProps } from '@entities/RootLayout/types';
+import { RootLayoutUIProps } from '@/app/layout/types';
 import { theme } from '@shared/themes';
 
 export const StyledLayout = {

@@ -19,7 +19,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@public_images/*": ["./public/assets/images/*"],
       "@shared/*": ["./src/shared/*"],
       "@images/*": ["./src/shared/assets/images/*"],
       "@entities/*": ["./src/entities/*"],
@@ -35,5 +34,6 @@
     }
   },
   "outDir": "./dist/",
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "types": ["jest", "@testing-library/jest-dom"]
 }
