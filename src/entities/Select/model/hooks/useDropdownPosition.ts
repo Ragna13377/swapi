@@ -5,7 +5,6 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef,
 	useState,
 } from 'react';
 import { TDropdownPosition } from '@entities/Select/types';

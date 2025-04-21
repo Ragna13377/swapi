@@ -21,99 +21,113 @@ describe('Modal', () => {
 		document.body.style.overflow = '';
 	});
 
-	it('Doesnt render when isOpen is false', () => {
-		const { queryByRole } = render(
-			<Modal isOpen={false} onClose={mockOnClose} />
-		);
-		expect(queryByRole('dialog')).not.toBeInTheDocument();
-	});
-	it('Correct render when isOpen is true', () => {
-		const { getByRole, getByText } = render(
-			<Modal isOpen onClose={mockOnClose} title='Test Modal'>
+	const setup = (props?: Partial<React.ComponentProps<typeof Modal>>) =>
+		render(
+			<Modal isOpen onClose={mockOnClose} title='Test Modal' {...props}>
 				<p>Test Content</p>
 			</Modal>
 		);
-		expect(getByRole('dialog')).toBeInTheDocument();
-		expect(getByRole('button')).toBeInTheDocument();
-		expect(getByText('Test Modal')).toBeInTheDocument();
-		expect(getByText('Test Content')).toBeInTheDocument();
-	});
-	it('Calls onClose on overlay click', async () => {
-		const { getByRole } = render(
-			<Modal isOpen onClose={mockOnClose}>
-				<p>Test</p>
-			</Modal>
-		);
-		const overlay = getByRole('dialog');
-		await userEvent.click(overlay);
-		expect(mockOnClose).toHaveBeenCalled();
-	});
-	it('Click inside doesnt close Modal', async () => {
-		const { getByText } = render(
-			<Modal isOpen onClose={mockOnClose}>
-				<button>Test Button</button>
-			</Modal>
-		);
-		const button = getByText('Test Button');
-		await userEvent.click(button);
-		expect(mockOnClose).not.toHaveBeenCalled();
-	});
-	it('calls onClose when Escape key is pressed', async () => {
-		render(<Modal isOpen onClose={mockOnClose} />);
-		await userEvent.keyboard('{Escape}');
-		expect(mockOnClose).toHaveBeenCalledTimes(1);
-	});
-	it('calls onClose when CloseButton is clicked', async () => {
-		const { getByRole } = render(<Modal isOpen onClose={mockOnClose} />);
-		const closeButton = getByRole('button');
-		await userEvent.click(closeButton);
-		expect(mockOnClose).toHaveBeenCalledTimes(1);
-	});
-	it('focuses first focusable element inside the modal', async () => {
-		const { getByText, getByLabelText } = render(
-			<Modal isOpen onClose={() => {}}>
-				<button>First</button>
-				<button>Second</button>
-			</Modal>
-		);
 
-		const firstButton = getByText('First');
-		const secondButton = getByText('Second');
-		const closeButton = getByLabelText('Close modal');
-
-		expect(firstButton).toHaveFocus();
-
-		await userEvent.tab();
-		expect(secondButton).toHaveFocus();
-
-		await userEvent.tab();
-		expect(closeButton).toHaveFocus();
-
-		await userEvent.tab({ shift: true });
-		expect(secondButton).toHaveFocus();
+	describe('Rendering', () => {
+		it('should not render when isOpen is false', () => {
+			const { queryByRole } = render(
+				<Modal isOpen={false} onClose={mockOnClose} />
+			);
+			expect(queryByRole('dialog')).not.toBeInTheDocument();
+		});
+		it('should render with content and title when isOpen is true', () => {
+			const { getByRole, getByText } = setup();
+			expect(getByRole('dialog')).toBeInTheDocument();
+			expect(getByRole('button')).toBeInTheDocument();
+			expect(getByText('Test Modal')).toBeInTheDocument();
+			expect(getByText('Test Content')).toBeInTheDocument();
+		});
 	});
 
-	it('disables body scroll when modal is open', () => {
-		render(<Modal isOpen onClose={mockOnClose} />);
-		expect(document.body.style.overflow).toBe('hidden');
+	describe('Close behavior', () => {
+		it('should close on overlay click', async () => {
+			const { getByRole } = setup();
+			await userEvent.click(getByRole('dialog'));
+			expect(mockOnClose).toHaveBeenCalled();
+		});
+		it('should closes on Escape key', async () => {
+			setup();
+			await userEvent.keyboard('{Escape}');
+			expect(mockOnClose).toHaveBeenCalledTimes(1);
+		});
+		it('should closes on close button click', async () => {
+			const { getByRole } = setup();
+			await userEvent.click(getByRole('button'));
+			expect(mockOnClose).toHaveBeenCalledTimes(1);
+		});
+		it('should doesnt close when clicking inside content', async () => {
+			const { getByText } = render(
+				<Modal isOpen onClose={mockOnClose}>
+					<button>Test Button</button>
+				</Modal>
+			);
+			await userEvent.click(getByText('Test Button'));
+			expect(mockOnClose).not.toHaveBeenCalled();
+		});
 	});
 
-	it('restores body scroll when modal is closed', () => {
-		const { unmount } = render(<Modal isOpen onClose={mockOnClose} />);
-		unmount();
-		expect(document.body.style.overflow).toBe('');
+	describe('Focus management', () => {
+		it('should trap focus inside modal', async () => {
+			const { getByText, getByLabelText } = render(
+				<Modal isOpen onClose={() => {}}>
+					<button>First</button>
+					<button>Second</button>
+				</Modal>
+			);
+
+			const [first, second, closeButton] = [
+				getByText('First'),
+				getByText('Second'),
+				getByLabelText('Close modal'),
+			];
+
+			expect(first).toHaveFocus();
+
+			await userEvent.tab();
+			expect(second).toHaveFocus();
+
+			await userEvent.tab();
+			expect(closeButton).toHaveFocus();
+
+			await userEvent.tab({ shift: true });
+			expect(second).toHaveFocus();
+		});
+		it('should handles with no focusable childrens', () => {
+			const { getByLabelText, container } = render(
+				<Modal isOpen onClose={() => {}}>
+					<div>No focusable elements here</div>
+				</Modal>
+			);
+			expect(container).toBeInTheDocument();
+			expect(getByLabelText('Close modal')).toHaveFocus();
+		});
+		it('should restore focus to previously focused element', async () => {
+			const button = document.createElement('button');
+			button.textContent = 'Initial Focus';
+			document.body.appendChild(button);
+			button.focus();
+
+			const { unmount } = render(<Modal isOpen onClose={mockOnClose} />);
+			unmount();
+
+			expect(button).toHaveFocus();
+			document.body.removeChild(button);
+		});
 	});
-
-	it('restores focus to previously focused element when closed', async () => {
-		const button = document.createElement('button');
-		button.textContent = 'Initial Focus';
-		document.body.appendChild(button);
-		button.focus();
-
-		const { unmount } = render(<Modal isOpen onClose={mockOnClose} />);
-		unmount();
-
-		expect(button).toHaveFocus();
-		document.body.removeChild(button);
+	describe('Body scroll', () => {
+		it('should disable body scroll when modal is open', () => {
+			setup();
+			expect(document.body.style.overflow).toBe('hidden');
+		});
+		it('Restores scroll when closed', () => {
+			const { unmount } = setup();
+			unmount();
+			expect(document.body.style.overflow).toBe('');
+		});
 	});
 });

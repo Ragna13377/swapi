@@ -48,7 +48,7 @@ export const useControlSelect = ({
 					return highlightedIndex;
 			}
 		},
-		[shouldBlockInteraction]
+		[shouldBlockInteraction, highlightedIndex, options]
 	);
 	const handleKeyAction = (e: React.KeyboardEvent, isMenuOpen: boolean) => {
 		if (shouldBlockInteraction) {

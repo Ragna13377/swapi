@@ -2,7 +2,10 @@ export const toCapitalizeFirstLetter = (str: string) =>
 	str.charAt(0).toUpperCase() + str.slice(1);
 
 export const camelCaseToCapitalize = (str: string) =>
-	str.replace(/([A-Z])/g, ' $1').replace(/\b\w/g, (char) => char.toUpperCase());
+	str
+		.replace(/([A-Z])/g, ' $1')
+		.replace(/\b\w/g, (char) => char.toUpperCase())
+		.trim();
 
 export const snakeCaseToCapitalize = (str: string) =>
 	str

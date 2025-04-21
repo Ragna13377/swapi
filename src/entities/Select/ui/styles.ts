@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const StyledSelect = {
 	Wrapper: styled.div`
-		inline-size: clamp(8rem, fit-content, 10rem);
+		inline-size: 12rem;
 		font-weight: 400;
 		font-size: clamp(1rem, calc(1rem + 0.25vw), 1.125rem);
 		line-height: 1;
