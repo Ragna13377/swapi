@@ -1,16 +1,16 @@
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/jest-globals';
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render } from '@testing-library/react';
-import '@testing-library/jest-dom/jest-globals';
-import '@testing-library/jest-dom';
+import { mockNormalizedCharacter } from '@shared/mocks';
 import { Card } from '@shared/ui/Card';
 import { CHEAP_COLOR_MAP } from '../constants';
-import { mockCharacter } from './mocks';
 
 describe('Card', () => {
-	it('render all props', () => {
+	it('should render with all props', () => {
 		const handleClick = jest.fn();
 		const { getByText } = render(
-			<Card {...mockCharacter} onClick={handleClick} />
+			<Card {...mockNormalizedCharacter} onClick={handleClick} />
 		);
 		const name = getByText('Luke Skywalker');
 		expect(name).toBeInTheDocument();
@@ -29,9 +29,9 @@ describe('Card', () => {
 		fireEvent.click(name);
 		expect(handleClick).toHaveBeenCalled();
 	});
-	it('render without nullable props', () => {
+	it('should render without nullable props', () => {
 		const character = {
-			...mockCharacter,
+			...mockNormalizedCharacter,
 			height: null,
 			mass: null,
 			gender: 'test',

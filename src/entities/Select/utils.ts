@@ -6,12 +6,16 @@ export const findOptionByKey = (
 	options: TSelectOption[],
 	key: string,
 	startIndex = 0
-) =>
-	options.findIndex(
+) => {
+	if (key.trim() === '') {
+		return -1;
+	}
+	return options.findIndex(
 		(option, index) =>
 			index >= startIndex &&
 			option.label.toLowerCase().startsWith(key.toLowerCase())
 	);
+};
 
 export const createSelectOptions = (
 	values: Set<string>,
