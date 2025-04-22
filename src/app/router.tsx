@@ -1,11 +1,11 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import { RootLayout } from '@/app/layout';
 import { Characters } from '@pages/Characters';
 import { Home } from '@pages/Home';
 import { NotFound } from '@pages/NotFound';
 import { charactersLoader } from './loaders/charatersLoader';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
 	{
 		element: <RootLayout />,
 		children: [
