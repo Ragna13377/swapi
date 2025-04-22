@@ -12,3 +12,18 @@ export const snakeCaseToCapitalize = (str: string) =>
 		.split('_')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
+
+export const snakeCaseToCamelCase = (str: string): string => {
+	if (!str.includes('_')) {
+		return str;
+	}
+
+	return str
+		.toLowerCase()
+		.split('_')
+		.filter(Boolean)
+		.map((word, index) =>
+			index === 0 ? word : toCapitalizeFirstLetter(word)
+		)
+		.join('');
+};

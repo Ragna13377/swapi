@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import {
-	camelCaseToCapitalize,
+	camelCaseToCapitalize, snakeCaseToCamelCase,
 	snakeCaseToCapitalize,
 	toCapitalizeFirstLetter,
 } from '../stringUtils';
@@ -32,6 +32,18 @@ describe('String utils', () => {
 			['', ''],
 		])('should transform "%s" to "%s"', (input, expected) => {
 			expect(snakeCaseToCapitalize(input)).toBe(expected);
+		});
+	});
+	describe('snakeCaseToCamelCase', () => {
+		it.each([
+			['birth_year', 'birthYear'],
+			['birthYear', 'birthYear'],
+			['birth__year', 'birthYear'],
+			['BIRTH_YEAR', 'birthYear'],
+			['singleword', 'singleword'],
+			['', '']
+		])('should transform "%s" to "%s"', (input, expected) => {
+			expect(snakeCaseToCamelCase(input)).toBe(expected);
 		});
 	});
 });

@@ -20,6 +20,7 @@ describe('normalizeCharacters', () => {
 	it('should normalize character with null and wrong values', () => {
 		const result = normalizeCharacters({
 			...mockCharactersResponse,
+			url: '/invalid-url',
 			height: '1,800',
 			mass: 'n/a',
 			gender: 'robot',
@@ -31,7 +32,7 @@ describe('normalizeCharacters', () => {
 
 		expect(result).toEqual({
 			name: 'Luke Skywalker',
-			id: '1',
+			id: '',
 			height: '1800',
 			mass: null,
 			gender: null,
