@@ -4,11 +4,11 @@ export const characterSchema = z.object({
 	name: z.string(),
 	height: z.string(),
 	mass: z.string(),
+	gender: z.string(),
 	birth_year: z.string(),
 	eye_color: z.string(),
 	hair_color: z.string(),
 	skin_color: z.string(),
-	gender: z.string(),
 	url: z.string(),
 });
 

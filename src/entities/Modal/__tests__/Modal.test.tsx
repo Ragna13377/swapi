@@ -33,11 +33,15 @@ describe('Modal', () => {
 			const { queryByRole } = render(
 				<Modal isOpen={false} onClose={mockOnClose} />
 			);
-			expect(queryByRole('dialog')).not.toBeInTheDocument();
+			const dialog = queryByRole('dialog');
+			expect(dialog).not.toBeInTheDocument();
+			expect(dialog).not.toHaveAttribute('data-enter');
 		});
 		it('should render with content and title when isOpen is true', () => {
 			const { getByRole, getByText } = setup();
-			expect(getByRole('dialog')).toBeInTheDocument();
+			const dialog = getByRole('dialog');
+			expect(dialog).toBeInTheDocument();
+			expect(dialog).toHaveAttribute('data-enter', 'true');
 			expect(getByRole('button')).toBeInTheDocument();
 			expect(getByText('Test Modal')).toBeInTheDocument();
 			expect(getByText('Test Content')).toBeInTheDocument();
